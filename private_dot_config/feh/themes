@@ -1,0 +1,10 @@
+feh --quiet \
+    --image-bg "#101013" \
+    --geometry 1890x1000 \
+    --scale-down \
+    --title "[%wx%h] [%z] %n" \
+    --draw-filename \
+    --fontpath "/usr/share/fonts/TTF" \
+    --font "CaskaydiaCoveNerdFont-Regular/13" \
+    --menu-font "CaskaydiaCoveNerdFont-Regular/13" \
+    --output-dir "/home/blale/pictures/screenshots"

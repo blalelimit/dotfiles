@@ -1,0 +1,86 @@
+/*******************************************************************************
+ * MACOS LAUNCHPAD LIKE THEME FOR ROFI 
+ * User                 : LR-Tech               
+ * Theme Repo           : https://github.com/lr-tech/rofi-themes-collection
+ *******************************************************************************/
+
+/*****----- Global Properties -----*****/
+@import                          "../fonts/fonts.rasi"
+
+* {
+    bg0:  #24242480;
+    bg1:  #363636;
+    bg2:  #f5f5f520;
+    bg3:  #f5f5f540;
+    bg4:  #89B4FA;
+
+    fg0:  #1E1D2FFF;
+    fg1:  #f5f5f580;
+
+    background-color: #181825D1;
+    text-color:       #D9E0EEFF;
+    padding:          0px;
+    margin:           0px;
+}
+
+window {
+    fullscreen: true;
+    background-color: transparent;
+}
+
+mainbox {
+    padding:  8px;
+}
+
+inputbar {
+    enabled: false;
+}
+
+prompt {
+    enabled: false;
+}
+
+listview {
+    margin:   68px;
+    spacing:  68px;
+    columns:  3;
+    fixed-columns: false;
+    background-color: transparent;
+}
+
+element, element-text, element-icon {
+    cursor: pointer;
+}
+
+element {
+    padding:                     24px;
+    spacing:                     12px;
+
+    orientation:                 vertical;
+    border:                      0px solid;
+    border-radius:               0px;
+    background-color:            transparent;
+    orientation:                 vertical;
+    cursor:                      pointer;
+}
+
+element selected {
+    background-color:            #89B4FAFF;
+    text-color:                  #1E1D2FFF;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        96px;
+    cursor:                      inherit;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    highlight:                   inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}

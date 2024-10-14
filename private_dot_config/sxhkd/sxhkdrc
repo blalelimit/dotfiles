@@ -1,0 +1,227 @@
+#           _     _       _ 
+#  _____  _| |__ | | ____| |
+# / __\ \/ / '_ \| |/ / _` |
+# \__ \>  <| | | |   < (_| |
+# |___/_/\_\_| |_|_|\_\__,_|
+#                           
+## Essential
+
+# kitty
+super + a
+	kitty
+
+# alacritty
+super + shift + a
+	alacritty --config-file ~/.config/alacritty/alacritty-bspwm.toml
+
+# tdrop ->  negative -w arg to account for a border width
+F12
+    bspwm-launch-tdrop.sh
+
+# program launcher
+{alt + F1,super + z,Super_R}
+    rofi-launcher.sh
+
+# reload sxhkd configuration files
+super + Escape
+	pkill -USR1 -x sxhkd
+
+
+## Bspwm
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close window
+{alt + F4,super + q}
+	bspc node -c
+
+# kill window
+super + shift + q
+    bspc node -k
+
+# alternate between tiled and monocle layout
+super + Tab
+    bspwm-toggle-desktop-layout.sh
+
+
+## State / flag
+
+# set the window state
+super + {t,KP_Insert,g,f,w,F11}
+	bspc node -t {tiled,pseudo_tiled,pseudo_tiled,floating,fullscreen,fullscreen}
+
+# set the node flags
+# super + ctrl + {m,x,y,z}
+# 	bspc node -g {marked,locked,sticky,private}
+
+# hide node
+super + shift + d
+    bspc node -g hidden=on
+
+# hide all nodes
+super + d
+    bspwm-hide-all-nodes.sh
+
+
+## Focus / swap
+
+# focus the node in the given direction
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+# swap the node in the given direction
+super + alt + {Left,Down,Up,Right}
+	bspc node -s {west,south,north,east}
+
+# switch to another desktop
+super + ctrl + {Left,Right}
+	bspc desktop -f {prev,next}.local
+
+# send window to another desktop
+super + {_,shift + }{1-6}
+	bspc {desktop -f,node -d} '^{1-6}'
+
+# move window to next desktop and move
+super + shift + {Left,Right} 
+    bspc node -d {prev,next}.local --follow;
+
+# focus the last node (current / all desktops)
+alt + {Tab,grave}
+	rofi-alt-tab-{windowcd,window}-improved.sh
+
+# switch windows (current / all desktops)
+alt + shift + {Tab,grave}
+    bspc node -f {last.local,last}
+
+# show windows
+super + {e,r}
+    rofi-{windowcd,window}.sh
+
+
+## Move/resize
+
+# contract a window by moving one of its side inward
+super + shift + {KP_Left,KP_Down,KP_Up,KP_Right}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# expand / contract a window by moving one of its side outward / inward
+super + {KP_Left,KP_Down,KP_Up,KP_Right}
+    bspc node -z {left -20 0 || bspc node -z right -20 0,   \
+                 bottom 0 20 || bspc node -z top 0 20,      \
+                 top 0 -20   || bspc node -z bottom 0 -20,  \
+                 right 20 0  || bspc node -z left 20 0}
+
+# move a floating window
+super + alt + {KP_Left,KP_Down,KP_Up,KP_Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+
+## Utilities
+
+# Change volume
+super + alt + {equal,minus,0}
+    {increase-volume,decrease-volume,toggle-mute}.sh
+    # pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%,0%}
+
+XF86Audio{RaiseVolume,LowerVolume,Mute}
+    {increase-volume,decrease-volume,toggle-mute}.sh
+    # pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%,0%}
+
+# Change brightness
+super + alt + {bracketright,bracketleft}
+    {increase,decrease}-brightness.sh
+
+XF86MonBrightness{Up,Down}
+    {increase,decrease}-brightness.sh
+
+# Change transparency on focused window
+super + alt + {apostrophe,semicolon,l}
+	picom-trans {-c -o +6,-c -o -2,-c -d}
+
+
+## Power management
+
+# lock screen
+super + l
+    bspwm-lock-session.sh
+
+# suspend to RAM
+ctrl + alt + l
+    bspwm-lock-session.sh & systemctl suspend
+
+# power menu
+ctrl + alt + Delete
+    rofi-powermenu.sh
+
+
+## compositor
+
+# Enable / disable picom (compositor)
+alt + F12
+    bspwm-toggle-picom.sh
+
+alt + shift + F12
+    bspwm-toggle-picom.sh
+
+## applications
+
+# mozilla firefox (web browser)
+super + b
+    firefox -P masterfox
+
+# brave (web browser)
+super + shift + b
+    brave --force-device-scale-factor=1.1
+
+# music players
+XF86Audio{Prev,Play,Stop,Next}
+    playerctl {previous,play-pause,stop,next}
+
+# cmus (music player)
+# super + c
+#     bspc desktop -f "^5" && kitty --app-id=cmus --config ~/.config/kitty/kitty-common.conf -e cmus
+#
+# alt + shift + {z,x,c,v,b}
+#     cmus-remote {--prev,--play,--pause,--stop,--next}
+#
+# alt + shift + {s,r,equal,underscore,0}
+#     cmus-{shuffle,repeat,vol-up,vol-down,vol-mute}
+
+# cava (audio visualizer)
+# super + shift + c
+#     kitty --app-id cava --config ~/.config/kitty/kitty-cava.conf -e cava
+
+# btop (system monitor)
+# super + m
+#     bspc desktop -f "^6" && kitty --app-id btop --config ~/.config/kitty/kitty-common.conf -e btop
+
+# htop (system monitor)
+# super + shift + m
+#     kitty --app-id htop --config ~/.config/kitty/kitty-common.conf -e htop
+
+# flameshot (screenshot utility)
+super + s
+    flameshot gui
+
+super + shift + s
+    flameshot gui
+
+Print
+    flameshot screen -c -p ~/pictures/screenshots
+
+# clipcat (clipboard manager)
+super + v
+    clipcat-menu
+
+super + shift + v
+    clipcatctl clear
+
+# xcolor (color picker)
+super + i
+    bspwm-launch-color-picker.sh
+
+# show wallpaper
+super + shift + o
+    feh "$(cat ~/.config/feh/bspwm-wallpaper.txt)"

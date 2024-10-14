@@ -1,0 +1,86 @@
+#!/usr/bin/bash
+
+title=""
+artist=""
+stat="stopped"
+album=""
+msg=""
+desc=""
+
+convert_time() {
+    m=$((${1}%3600/60))
+    s=$((${1}%60))
+    printf "%02d:%02d" $m $s
+}
+
+get_time() {
+    query=$(cmus-remote -Q)
+    pos=$(convert_time $(echo -e "$query" | grep position | awk '{print $2}'))
+    dur=$(convert_time $(echo -e "$query" | grep duration | awk '{print $2}'))
+    echo "$pos / $dur"
+}
+
+while [ "$1" != "" ]
+do
+    case "$1" in
+        title)
+            title="$2"
+        ;;
+        artist)
+            artist="$2"
+        ;;
+        status)
+            stat="$2"
+        ;;
+        file)
+            file="$2"
+        ;;
+        album)
+            album="$2"
+        ;;
+        *)
+        ;;
+    esac
+    shift
+    shift
+done
+
+if [ "$stat" = "stopped" ]
+then
+    if [ "$file" != "" ]
+    then
+        msg="`basename "$file"`"
+        desc="[Stopped]"
+    fi
+else
+    time="$(get_time)"
+    
+    if [ "$stat" = "paused" ]
+    then
+        desc="[Paused] $time"
+    else
+        desc="[Playing] $time"
+    fi
+
+    if [ -n "$title" ]
+    then
+        msg="$title"
+    else
+        if [ -n "$file" ]
+        then
+            msg="$msg`basename "$file"`"
+        fi
+    fi
+
+    if [ -n "$artist" ]
+    then
+        msg="$msg ~ $artist"
+    fi
+
+    if [ -n "$album" ]
+    then
+        msg="$msg ~ $album"
+    fi
+fi
+
+notify-send "$msg" "$desc" --icon="audacity" --app-name="cmus"
