@@ -6,13 +6,13 @@
 # |_.__/|___/ .__/ \_/\_/ |_| |_| |_|_|  \___|
 #           |_|                               
 #
-## Main configs
-bspc monitor -d " 󰈹 " "  " " 󰭹 " " 󰓓 " " 󰋋 " "  "
+# Main configs
+bspc monitor -d 1 2 3 4 5 6
 
 bspc config border_width            3
 bspc config window_gap              15
-
 bspc config split_ratio             0.5
+
 bspc config borderless_monocle      false
 bspc config gapless_monocle         false
 bspc config focus_follows_pointer   false
@@ -20,84 +20,52 @@ bspc config focus_follows_pointer   false
 bspc config focused_border_color    "#a6e3a1"
 bspc config normal_border_color     "#89b4fa"
 
-
-## Window rules
-
-# 1
-bspc rule -a firefox          follow=on     desktop="^1"  state=tiled
-bspc rule -a Brave-browser    follow=on     desktop="^1"  state=tiled
-
-# 2
-bspc rule -a kitty            follow=on
-bspc rule -a kitty:*:xcolor   hidden=on
-bspc rule -a Alacritty        follow=on
-bspc rule -a dragon           follow=on     state=floating
-bspc rule -a mpv              follow=on
-
-# 3
-bspc rule -a discord          desktop="^3"  state=tiled
-
-# 4
-bspc rule -a steam            desktop="^4"  state=tiled
-bspc rule -a Lutris           desktop="^4"  state=tiled                            
-
-# 5
-bspc rule -a Spotify                desktop="^5" state=tiled
-
-# 6
-bspc rule -a plasma-systemmonitor   desktop="^6" state=tiled
-
-
-## Set layouts
-
-# Get current desktop
-cur_desktop=$(bspc query -D -d focused --names)
+# Window rules
+bspc config external_rules_command ~/.config/bspwm/rules
 
 # Set specific desktops as monocle
+cur_desktop=$(bspc query -D -d focused --names)
 bspc desktop "^1" -l monocle
 bspc desktop "^5" -l monocle
 bspc desktop "^6" -l monocle
-
-# Return to current desktop
 bspc desktop -f "$cur_desktop"
 
-
-## Autostart
-
-# Set cursor
+#              _            _             _
+#   __ _ _   _| |_ ___  ___| |_ __ _ _ __| |_
+#  / _` | | | | __/ _ \/ __| __/ _` | '__| __|
+# | (_| | |_| | || (_) \__ \ || (_| | |  | |_
+#  \__,_|\__,_|\__\___/|___/\__\__,_|_|   \__|
+#
+# Xsetroot
 xsetroot -cursor_name left_ptr
 
-# Launch feh (wallpaper setter)
+# Feh (wallpaper setter)
 feh --bg-fill "$(cat ~/.config/feh/bspwm-wallpaper.txt)"
-
-# Launch sxhkd
-pgrep -x sxhkd > /dev/null || sxhkd &
 
 # Xset
 xset s 0
 xset +dpms dpms 0 0 0
 
-# Launch xidlehook and i3lock-color (locker)
-bspwm-launch-xidlehook.sh
+# Sxhkd
+pidof -q sxhkd || sxhkd &
 
-# Launch picom (compositor)
-killall -q picom
-picom &
+# Picom (compositor)
+pidof -q picom || picom &
 
-# Launch polybar (taskbar)
+# Polybar (taskbar)
 bspwm-launch-polybar.sh
 
-# Launch dunst (notification manager)
-killall -q dunst
-dunst & 
+# Xidlehook, i3lock-color (locker)
+bspwm-launch-xidlehook.sh
 
-# Launch polkit-gnome (polkit)
-killall -q polkit-gnome-authentication-agent-1
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# Dunst (notification manager)
+pidof -q dunst || dunst &
 
-# Launch nm-applet
-killall -q nm-applet
-nm-applet &
+# Polkit-gnome (polkit)
+pidof -q polkit-gnome-authentication-agent-1 || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-# Launch clipcatd (clipboard manager)
-clipcatd --replace
+# Nm-applet (network)
+pidof -q nm-applet || nm-applet &
+
+# Clipcatd (clipboard manager)
+pidof -q clipcatd || clipcatd

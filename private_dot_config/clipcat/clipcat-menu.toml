@@ -5,19 +5,19 @@ preview_length = 80
 [rofi]
 line_length = 100
 menu_length = 15
-menu_prompt = "Clipcat"
+menu_prompt = "clipcat"
 extra_arguments = ["-theme", "~/.config/rofi/window/style.rasi", "-hover-select", "-me-select-entry", "", "-me-accept-entry", "MousePrimary", "-kb-cancel", "Super_L,Super_R,Escape"]
 
 [dmenu]
 line_length = 100
 menu_length = 30
-menu_prompt = "Clipcat"
+menu_prompt = "clipcat"
 extra_arguments = []
 
 [choose]
 line_length = 100
 menu_length = 30
-menu_prompt = "Clipcat"
+menu_prompt = "clipcat"
 extra_arguments = []
 
 [custom_finder]

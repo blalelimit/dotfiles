@@ -6,30 +6,31 @@
 #                           
 ## Essential
 
-# kitty
+# terminal
 super + a
 	kitty
 
-# alacritty
 super + shift + a
-	alacritty --config-file ~/.config/alacritty/alacritty-bspwm.toml
+    bspc desktop -f "^2" && kitty
 
-# tdrop ->  negative -w arg to account for a border width
+super + shift + x
+    xterm
+
 F12
     bspwm-launch-tdrop.sh
 
-# program launcher
-{alt + F1,super + z,Super_R}
+# rofi (program launcher)
+{alt + F1,super + z}
     rofi-launcher.sh
 
 # reload sxhkd configuration files
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill -USR1 -x sxhkd && notify-send "Hotkey Daemon" "sxhkd restarted" --app-name="sxhkd"
 
 
 ## Bspwm
 
-# quit/restart bspwm
+# quit / restart bspwm
 super + alt + {q,r}
 	bspc {quit,wm -r}
 
@@ -49,8 +50,11 @@ super + Tab
 ## State / flag
 
 # set the window state
-super + {t,KP_Insert,g,f,w,F11}
-	bspc node -t {tiled,pseudo_tiled,pseudo_tiled,floating,fullscreen,fullscreen}
+super + {x,KP_Insert,t,w,F11}
+	bspc node -t {tiled,pseudo_tiled,pseudo_tiled,fullscreen,fullscreen}
+
+super + f
+    bspwm-set-floating-window.sh
 
 # set the node flags
 # super + ctrl + {m,x,y,z}
@@ -63,6 +67,18 @@ super + shift + d
 # hide all nodes
 super + d
     bspwm-hide-all-nodes.sh
+
+# enable / disable picom (compositor)
+alt + F12
+    bspwm-toggle-picom.sh
+
+# enable / disable picom with animations
+alt + shift + F12
+    bspwm-toggle-picom.sh --animations
+
+# show / hide polybar
+super + p
+    polybar-msg cmd toggle
 
 
 ## Focus / swap
@@ -79,13 +95,19 @@ super + alt + {Left,Down,Up,Right}
 super + ctrl + {Left,Right}
 	bspc desktop -f {prev,next}.local
 
+super + {1-6}
+    bspc desktop -f '^{1-6}'
+
+super + ctrl + {a,s,d,z,x,c}
+    bspc desktop -f '^{1-6}'
+
 # send window to another desktop
-super + {_,shift + }{1-6}
-	bspc {desktop -f,node -d} '^{1-6}'
+super + shift + {1-6}
+	bspc node -d '^{1-6}' --follow
 
 # move window to next desktop and move
 super + shift + {Left,Right} 
-    bspc node -d {prev,next}.local --follow;
+    bspc node -d {prev,next}.local --follow
 
 # focus the last node (current / all desktops)
 alt + {Tab,grave}
@@ -100,21 +122,25 @@ super + {e,r}
     rofi-{windowcd,window}.sh
 
 
-## Move/resize
+## Move / resize
+
+# expand a window by moving one of its side outward
+# super + {KP_Left,KP_Down,KP_Up,KP_Right}
+# 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
 super + shift + {KP_Left,KP_Down,KP_Up,KP_Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # expand / contract a window by moving one of its side outward / inward
-super + {KP_Left,KP_Down,KP_Up,KP_Right}
+super + alt + {KP_Left,KP_Down,KP_Up,KP_Right}
     bspc node -z {left -20 0 || bspc node -z right -20 0,   \
                  bottom 0 20 || bspc node -z top 0 20,      \
                  top 0 -20   || bspc node -z bottom 0 -20,  \
                  right 20 0  || bspc node -z left 20 0}
 
 # move a floating window
-super + alt + {KP_Left,KP_Down,KP_Up,KP_Right}
+super + {KP_Left,KP_Down,KP_Up,KP_Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
 
@@ -123,11 +149,9 @@ super + alt + {KP_Left,KP_Down,KP_Up,KP_Right}
 # Change volume
 super + alt + {equal,minus,0}
     {increase-volume,decrease-volume,toggle-mute}.sh
-    # pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%,0%}
 
 XF86Audio{RaiseVolume,LowerVolume,Mute}
     {increase-volume,decrease-volume,toggle-mute}.sh
-    # pactl set-sink-volume @DEFAULT_SINK@ {+5%,-5%,0%}
 
 # Change brightness
 super + alt + {bracketright,bracketleft}
@@ -136,7 +160,7 @@ super + alt + {bracketright,bracketleft}
 XF86MonBrightness{Up,Down}
     {increase,decrease}-brightness.sh
 
-# Change transparency on focused window
+# Change transparency
 super + alt + {apostrophe,semicolon,l}
 	picom-trans {-c -o +6,-c -o -2,-c -d}
 
@@ -156,16 +180,7 @@ ctrl + alt + Delete
     rofi-powermenu.sh
 
 
-## compositor
-
-# Enable / disable picom (compositor)
-alt + F12
-    bspwm-toggle-picom.sh
-
-alt + shift + F12
-    bspwm-toggle-picom.sh
-
-## applications
+## Applications
 
 # mozilla firefox (web browser)
 super + b
@@ -180,26 +195,26 @@ XF86Audio{Prev,Play,Stop,Next}
     playerctl {previous,play-pause,stop,next}
 
 # cmus (music player)
-# super + c
-#     bspc desktop -f "^5" && kitty --app-id=cmus --config ~/.config/kitty/kitty-common.conf -e cmus
-#
-# alt + shift + {z,x,c,v,b}
-#     cmus-remote {--prev,--play,--pause,--stop,--next}
-#
-# alt + shift + {s,r,equal,underscore,0}
-#     cmus-{shuffle,repeat,vol-up,vol-down,vol-mute}
+super + c
+    bspc desktop -f "^5" && kitty --app-id=cmus --config ~/.config/kitty/kitty-cmus.conf -e cmus
+
+alt + shift + {z,x,c,v,b}
+    cmus-remote {--prev,--play,--pause,--stop,--next}
+
+alt + shift + {s,r,equal,underscore,0}
+    cmus-{shuffle,repeat,vol-up,vol-down,vol-mute}
 
 # cava (audio visualizer)
-# super + shift + c
-#     kitty --app-id cava --config ~/.config/kitty/kitty-cava.conf -e cava
+super + shift + c
+    kitty --app-id cava --config ~/.config/kitty/kitty-cava.conf -e cava
 
 # btop (system monitor)
-# super + m
-#     bspc desktop -f "^6" && kitty --app-id btop --config ~/.config/kitty/kitty-common.conf -e btop
+super + m
+    bspc desktop -f "^6" && kitty --app-id btop --config ~/.config/kitty/kitty-common.conf -e btop
 
 # htop (system monitor)
-# super + shift + m
-#     kitty --app-id htop --config ~/.config/kitty/kitty-common.conf -e htop
+super + shift + m
+    kitty --app-id htop --config ~/.config/kitty/kitty-common.conf -e htop
 
 # flameshot (screenshot utility)
 super + s

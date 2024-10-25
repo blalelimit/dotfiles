@@ -1,10 +1,9 @@
-/**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- * 
- * Configuration For Rofi Version: 1.7.3
- **/
+/*          __ _
+ _ __ ___  / _(_)
+| '__/ _ \| |_| |
+| | | (_) |  _| |
+|_|  \___/|_| |_|
+*/
 
 configuration {
 	/*---------- General setting ----------*/
@@ -72,18 +71,18 @@ configuration {
 	max-history-size: 25;
 
 	/*---------- Display setting ----------*/
-	display-window: "Windows";
-	display-windowcd: "Window CD";
-	display-run: "Run";
-	display-ssh: "SSH";
-	display-drun: "Apps";
-	display-combi: "Combi";
-	display-keys: "Keys";
-	display-filebrowser: "Files";
+	display-window: "window";
+	display-windowcd: "window cd";
+	display-run: "run";
+	display-ssh: "ssh";
+	display-drun: "apps";
+	display-combi: "combi";
+	display-keys: "keys";
+	display-filebrowser: "files";
 
 	/*---------- Misc setting ----------*/
 	terminal: "rofi-sensible-terminal";
-	font: "Mono 12";
+	font: "CaskaydiaCove Nerd Font 12";
 	sort: false;
 	threads: 0;
 	click-to-exit: true;
@@ -140,7 +139,7 @@ configuration {
 	kb-ellipsize: "Alt+period";
 	kb-toggle-case-sensitivity: "grave,dead_grave";
 	kb-toggle-sort: "Alt+grave";
-	kb-cancel: "Escape,Control+g,Control+bracketleft";
+	kb-cancel: "Escape,Control+g,Control+bracketleft,Super_L,Super_R";
 	kb-custom-1: "Alt+1";
 	kb-custom-2: "Alt+2";
 	kb-custom-3: "Alt+3";

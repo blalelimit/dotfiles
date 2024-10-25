@@ -9,9 +9,11 @@ rofi \
     -hover-select -me-select-entry '' \
     -me-accept-entry MousePrimary \
     -kb-cancel "Super_L,Super_R,Escape" \
-    -kb-row-down "Alt+Down,Down" \
-    -kb-row-up "Alt+Up,Up" \
-    -kb-row-left "Alt+Left" \
-    -kb-row-right "Alt+Right" \
+    -kb-move-char-back "Alt+Left" \
+    -kb-move-char-forward "Alt+Right" \
+    -kb-row-up "Up" \
+    -kb-row-down "Down" \
+    -kb-row-left "Left" \
+    -kb-row-right "Right" \
     -location 0 \
     -theme ${dir}/${theme}.rasi

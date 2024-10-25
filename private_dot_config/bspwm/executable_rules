@@ -1,0 +1,39 @@
+#!/bin/bash
+#             _
+#  _ __ _   _| | ___  ___
+# | '__| | | | |/ _ \/ __|
+# | |  | |_| | |  __/\__ \
+# |_|   \__,_|_|\___||___/
+#
+# 1
+bspc rule -a firefox          follow=on     desktop="^1"  state=tiled
+bspc rule -a Brave-browser    follow=on     desktop="^1"  state=tiled
+
+# 2
+bspc rule -a kitty            follow=on
+bspc rule -a kitty:*:xcolor   hidden=on
+bspc rule -a Alacritty        follow=on
+bspc rule -a dragon           follow=on     state=floating
+bspc rule -a mpv              follow=on     state=fullscreen
+bspc rule -a Yad                            state=floating
+
+# 3
+bspc rule -a discord          desktop="^3"  state=tiled
+
+# 4
+bspc rule -a steam                  desktop="^4"  state=tiled
+bspc rule -a Lutris                 desktop="^4"  state=tiled                            
+
+if [[ -d "$HOME/.local/share/Steam/steamapps" ]]; then
+    for i in $(ls ~/.local/share/Steam/steamapps \
+        | grep appmanifest \
+        | sed -e 's/appmanifest/steam_app/g' -e 's/.acf//g'); do
+        bspc rule -a "$i"           desktop="^4" state=fullscreen follow=on
+    done
+fi
+
+# 5
+bspc rule -a Spotify                desktop="^5" state=tiled
+
+# 6
+bspc rule -a plasma-systemmonitor   desktop="^6" state=tiled

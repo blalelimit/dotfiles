@@ -6,6 +6,7 @@ theme='style'
 
 # CMDs
 uptime="`uptime -p | sed -e 's/up //g'`"
+# host=`hostnamectl hostname`
 
 # Options
 shutdown=''

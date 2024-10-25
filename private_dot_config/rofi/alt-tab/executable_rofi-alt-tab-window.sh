@@ -16,5 +16,5 @@ rofi \
     -kb-row-up "Alt+asciitilde,Alt+Up,Up" \
     -kb-row-left "Alt+Left,Left" \
     -kb-row-right "Alt+Right,Right" \
-    -timeout-delay 1 -timeout-action "kb-accept-entry" \
+    -timeout-delay 3 -timeout-action "kb-accept-entry" \
     -theme ${dir}/${theme}.rasi

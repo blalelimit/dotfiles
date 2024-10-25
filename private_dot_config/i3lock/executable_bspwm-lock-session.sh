@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# set normal wallpaper
-# wallpaper="$(cat ~/.config/feh/bspwm-wallpaper.txt)"
-
 # set blurred wallpaper
 wallpaper="$HOME/.config/i3lock/lockscreen.jpg"
 
-magick "$(cat ~/.config/feh/bspwm-wallpaper.txt)" -filter Gaussian \
+magick "$(cat ~/.config/feh/$DESKTOP_SESSION-wallpaper.txt)" -filter Gaussian \
     -resize 10% -define filter:sigma=1 -resize 1920x1080^ \
     -gravity center -extent 1920x1080 -strip \
     "$wallpaper"
@@ -16,7 +13,7 @@ MAIN='#89B4FAFF'
 BLANK='#00000000'
 CLEAR='#45475AFF'
 DEFAULT='#292C33FF'
-TEXT='#94E2D5FF'
+TEXT='#CDD6F4FF'
 WRONG='#F38BA8FF'
 VERIFYING='#A6E3A1FF'
 
@@ -33,7 +30,7 @@ i3lock \
 --line-color=$CLEAR          \
 --separator-color=$DEFAULT   \
 \
---verif-color=$TEXT          \
+--verif-color=$VERIFYING     \
 --wrong-color=$WRONG         \
 --time-color=$MAIN           \
 --date-color=$TEXT           \
@@ -67,6 +64,7 @@ i3lock \
 --clock                      \
 --indicator                  \
 --keylayout 1                \
+--no-modkey-text             \
 --nofork                     \
 --ignore-empty-password      \
 --image="$wallpaper"

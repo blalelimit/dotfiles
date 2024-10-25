@@ -174,5 +174,10 @@ opacity = 0.85
 x = 5
 y = 9
 
-[shell]
+[env]
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[terminal]
+
+[terminal.shell]
 program = "/usr/bin/zsh"
